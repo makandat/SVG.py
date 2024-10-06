@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<svg width="800" height="800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<title>Polar</title>
+<rect x="0" y="0" width="799" height="799" style="stroke:gray;stroke-width:1;fill:transparent;" />
+<line x1="0" y1="400" x2="800" y2="400" style="stroke:gainsboro;stroke-width:1" />
+<line x1="400" y1="0" x2="400" y2="800" style="stroke:gainsboro;stroke-width:1" />
+<text x="400" y="15" style="font-size:1.5;stroke:gray;fill:gray;">100.0</text>
+<text x="400" y="780" style="font-size:1.5;stroke:gray;fill:gray;">-100.0</text>
+<text x="0" y="400" style="font-size:1.5;stroke:gray;fill:gray;">-100.0</text>
+<text x="740" y="400" style="font-size:1.5;stroke:gray;fill:gray;">100.0</text>
+<path d="M 600,400 599,380 596,360 591,341 584,322 576,304 565,287 553,271 539,257 524,243 508,232 491,222 472,214 453,207 434,203 414,201 394,200 374,202 355,205 335,211 317,218 299,227 282,238 267,251 253,265 240,280 229,297 219,315 212,333 206,352 202,372 200,392 200,412 203,432 207,451 213,470 221,489 230,506 242,522 255,538 269,551 285,564 302,574 320,583 339,590 358,596 378,599 398,600 417,599 437,596 457,592 476,585 494,577 511,566 527,555 542,541 555,526 567,510 577,493 585,475 592,456 597,436 599,417  Z" style="stroke:black;stroke-width:2;fill:lightcyan;fill-opacity:30%;" />
+</svg>

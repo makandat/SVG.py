@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<svg width="320" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<title>Test</title>
+<line x1="10" y1="110" x2="200" y2="150" style="stroke:orange;stroke-width:5" />
+<rect x="5" y="5" width="80" height="50" style="fill:lightblue;stroke:black;stroke-width:2" />
+<text x="10" y="80" style="font-size:1.5;stroke:gray;fill:gray;">ABCD098</text>
+<g style="stroke:red;stroke-width:2;fill:pink;">
+<circle cx="280" cy="200" r="25" />
+<circle cx="240" cy="200" r="25" />
+<ellipse cx="180" cy="200" rx="40" ry="25" />
+</g>
+<polygon points="150,30 230,30 200,80 120,80" style="stroke:gray;stroke-width:1;fill:transparent;" />
+<polyline points="10,230 70,180 50,150 110,210" style="stroke:deeppink;stroke-width:4;fill:transparent;" />
+<path d="M 10,95 80,30 100,50 120,150 180,50" style="stroke:red;stroke-width:3;fill:transparent;" />
+<rect x="120" y="190" width="100" height="50" transform="rotate(-30)" style="stroke:black;stroke-width:2;fill:silver;" />
+</svg>

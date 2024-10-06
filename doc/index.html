@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width,initial-scale=1" />
+ <title>SVG.py v2.0</title>
+ <!-- BootstrapのCSS読み込み -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- highlight.js -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlightjs/styles/googlecode.css" />
+ <script src="https://cdn.jsdelivr.net/highlightjs/highlight.js"></script>
+ <script>hljs.highlightAll()</script>
+ <style>
+  h3 {
+    color:#408080;
+  }
+  h4 {
+    color:#c04040;
+  }
+  pre {
+    padding:8px;
+    border:dotted thin gray;
+  }
+ </style>
+</head>
+
+<body>
+ <!-- ヘッダー -->
+ <header class="container">
+  <h1 class="text-center p-5 border border-warning rounded">SVG.py v2.0</h1>
+  <p class="text-center"><a href="/">HOME</a></p>
+ </header>
+
+ <!-- 本文 -->
+ <article class="container">
+  <section class="row">
+   <h2 class="text-primary">概要</h2>
+   <p class="ms-4">SVG.py は SVG を生成するためのモジュールであり、これを使用することで Python で SVG を生成することができる。それゆえ、手書きでは作成が難しいグラフなどの図形をスクリプトにより作成できる。</p>
+   <p class="ms-4">ただし、すべての SVG の機能をサポートしているわけではない。また、プログラミングには SVG の知識が必要である。</p>
+   <p class="ms-4">SVG クラスを使用するときは import SVG が必要である。</p>
+  </section>
+
+  <section class="mt-3">
+   <h2 class="text-primary">SVG クラス</h2>
+   <div>
+   <h3>コンストラクタ</h3>
+    <h4>svg.SVG(width:int, height:int, title="")</h4>
+    <ul>
+     <li><b>width:int</b> 描画領域の幅のピクセル数</li>
+     <li><b>height:int</b> 描画領域の高さのピクセル数</li>
+     <li><b>title:str</b> SVG のタイトル</li>
+    </ul>
+   </div>
+   <div>
+   <h3 class="mt-4">プロパティ</h3>
+    <h4><b>width:int</b> 描画領域の幅のピクセル数 (Read Only)</h4>
+    <h4><b>width:int</b> 描画領域の高さのピクセル数 (Read Only)</h4>
+    <h4><b>title:str</b> SVG のタイトル (Read/Write)</h4>
+   </div>
+   <div>
+   <h3 class="mt-4">インスタンスメソッド</h3>
+   <!-- add_shape -->
+   <h4 class="mb-2">svg.add_shape(name:str, data:Union[list, tuple, dict, str]="", style:str="stroke:gray;stroke-width:1;fill:transparent;") -> None</h4>
+    <p>SVG に図形を追加する。</p>
+    <ul>
+     <li><b>name</b><br />図形の種別。('line', 'rect', 'circle', 'ellipse', 'polyline', 'polygon' のどれか)</li>
+     <li><b>data</b><br />図形の属性。型はリスト、辞書、文字列のどれか。<br />
+     (例1) 'x="0" y="0" width="120" height="50"'<br />
+     (例2) ['x="0"', 'y="0"', 'width="120"', 'height="50"']<br />
+     (例3) {"x":0, "y":0, "width":120, "height":50}
+</li>
+     <li><b>style</b><br/>図形のスタイル。(例) "stroke:black;stroke-width:2;fill:lightyellow;fill-opacity:40%;"</li>
+    </ul>
+
+   <!-- add_path -->
+   <h4 class="mb-2">svg.add_path(data:Union[list, tuple, str]="", style:str="stroke:gray;stroke-width:1;fill:transparent;") -> None</h4>
+   <p>SVG に Path を追加する。Path は一筆書きのようなものであるが、一筆書きの始点は自由に移動できる。</p>
+   <ul>
+    <li><b>data</b><br />
+     コマンドと点のリスト、タプルまたはパス全体の文字列。<br />
+     (例1) ["M", "40,5", "45,18", "H 5", "19,3", "Z"]<br />
+     (例2) "M 40,5 45,18 50,18 19,3 Z"
+    </li>
+    <li><b>style</b><br/>図形のスタイル。(例) "stroke:gray;stroke-width:1;fill:transparent;"</li>
+   </ul>
+
+   <!-- add_text -->
+   <h4 class="mb-2">svg.add_text(text:str, x:int, y:int, style="font-size:1.5;stroke:gray;fill:gray;") -> None</h4>
+   <p>SVG に文字列を追加する。</p>
+   <ul>
+    <li><b>text:str</b><br /> 表示する文字列。</li>
+    <li><b>x:int</b><br /> 表示位置の X 座標。</li>
+    <li><b>y:int</b><br /> 表示位置の Y 座標。</li>
+    <li><b>style</b><br/> 文字列のスタイル。(例) "font-size:1.5;stroke:gray;fill:gray;"</li>
+   </ul>
+
+   <!-- add_group -->
+   <h4 class="mb-2">svg.add_group(style:str) -> None</h4>
+   <p>図形のグループを追加する。グループ内ではスタイルが統一される。グループを終了させるには、close_group() を実行する。</p>
+   <ul>
+    <li><b>style:str</b><br />グループ内の図形に適用するスタイル。</li>
+   </ul>
+
+   <!-- close_group -->
+   <h4 class="mb-2">svg.close_group()</h4>
+    <p>グループを終了する。必ず、add_group() とペアで実行すること。</p>
+
+   <!-- str(svg) -->
+   <h4 class="mb-2">str(svg)</h4>
+   <p>svg の文字列表現を返す。</p>
+
+   <!-- translate_xy -->
+   <h4 class="mb-2">svg.translate_xy(x:float, y:float, scale_x:float=1.0, scale_y:float=1.0, offset_x:float=0.0, offset_y:float=0.0) -> tuple[int, int]</h4>
+   <p>XY 座標系の点 (x, y) を SVG の座標系に変換する。</p>
+   <ul>
+    <li><b>x:float</b><br />変換する点の X 座標</li>
+    <li><b>y:float</b><br />変換する点の Y 座標</li>
+    <li><b>scale_x:float</b><br />X 軸方向の倍率</li>
+    <li><b>scale_y:float</b><br />Y 軸方向の倍率</li>
+    <li><b>offset_x:float</b><br />X 軸方向のオフセット</li>
+    <li><b>offset_y:float</b><br />Y 軸方向のオフセット</li>
+   </ul>
+   <p>例 1000x1000の描画領域で点(0, 0)を描画領域の中心にする。ただし論理描画領域は50x50である。</p>
+   <pre>svg.translate_xy(0, 0, 10.0, 10.0, 500, 500)</pre>
+
+   <!-- translate_complex -->
+   <h4 class="mb-2">svg.translate_complex(z:complex, scale_x:float=1.0, scale_y:float=1.0, offset_x=0.0, offset_y=0.0) -> tuple[int, int]</h4>
+   <p>複素空間の点(複素数)を SVG 座標系に変換する。</p>
+   <ul>
+    <li><b>z:complex</b><br />変換する複素数</li>
+    <li><b>scale_x:float</b><br />X 軸方向の倍率</li>
+    <li><b>scale_y:float</b><br />Y 軸方向の倍率</li>
+    <li><b>offset_x:float</b><br />X 軸方向のオフセット</li>
+    <li><b>offset_y:float</b><br />Y 軸方向のオフセット</li>
+   </ul>
+   <p>例 1000x1000の描画領域で点(0+0i)を描画領域の中心にする。ただし論理描画領域は50x50である。</p>
+   <pre>svg.translate_complex(complex(0, 0), 10.0, 10.0, 500, 500)</pre>
+
+   <!-- translate_polar -->
+   <h4 class="mb-2">svg.translate_polar(r:float, arg:float, scale_x:float=1.0, scale_y:float=1.0, offset_x=0.0, offset_y=0.0, degree=False) -> tuple[int, int]</h4>
+   <p>極座標上の点 (r, arg) を SVG 座標系に変換する。</p>
+   <ul>
+    <li><b>r:float</b><br />変換する点の原点からの距離</li>
+    <li><b>arg:float</b><br />変換する点の偏角</li>
+    <li><b>scale_x:float</b><br />X 軸方向の倍率</li>
+    <li><b>scale_y:float</b><br />Y 軸方向の倍率</li>
+    <li><b>offset_x:float</b><br />X 軸方向のオフセット</li>
+    <li><b>offset_y:float</b><br />Y 軸方向のオフセット</li>
+   </ul>
+   <p>例 1000x1000の描画領域で点(0, 0)を描画領域の中心にする。ただし論理描画領域は50x50である。</p>
+   <pre>svg.translate_porlar(0, 0, 10.0, 10.0, 500, 500)</pre>
+
+   <!-- save -->
+   <h4 class="mb-2">svg.save(path:str) -> None</h4>
+   <p>SVG をパス名 path でファイル保存する。</p>
+
+   <!-- clear-->
+   <h4 class="mb-2">svg.clear() -> None</h4>
+   <p>現在の SVG オブジェクトの内容をクリアする。</p>
+
+   <!-- draw_frame -->
+   <h4 class="mb-2">svg.draw_frame(color:str="gray", line_width:int=1) -> None</h4>
+   <p>現在の描画領域に枠を描画する。</p>
+   <ul>
+   <li><b>color:str</b><br />枠線の色</li>
+   <li><b>line_width:int</b><br />枠線の幅</li>
+   </ul>
+   <!-- draw_vline -->
+   <h4 class="mb-2">svg.draw_vline(x:int, / , style="stroke:gainsboro;stroke-width:1") -> None</h4>
+   <p>現在の描画領域に座標軸用の縦線を描画する。</p>
+   <ul>
+   <li><b>x:int</b><br />縦線の X 座標</li>
+   <li><b>style:str</b><br />縦線のスタイル</li>
+   </ul>
+
+   <!-- draw_hline -->
+   <h4 class="mb-2">svg.draw_hline(y:int, / , style="stroke:gainsboro;stroke-width:1") -> None</h4>
+   <p>現在の描画領域に座標軸用の横線を描画する。</p>
+   <ul>
+   <li><b>y:int</b><br />横線の Y 座標</li>
+   <li><b>style:str</b><br />横線のスタイル</li>
+   </ul>
+
+   </div>
+
+   <div>
+   <!-- スタティックメソッド -->
+   <h3 class="mt-4">スタティックメソッド</h3>
+   <h4 class="mb-2">SVG.shape_style(color="black", line_width=2, bgcolor="transparent") -> str</h4>
+   <p>add_shape() メソッドの style パラメータなどに使用するスタイル文字列を構成する。</p>
+   <ul>
+   <li><b>color:str</b><br />境界線の色</li>
+   <li><b>line_width:int</b><br />境界線の幅</li>
+   <li><b>bgcolor:str</b><br />背景の色</li>
+   </ul>
+   </div>
+  </section>
+
+
+  <!-- サンプル -->
+  <section class="row">
+  <h2 class="mt-4 text-primary">サンプル</h2>
+  <h3 class="mt-4">(サンプル１) 各種の図形</h3>
+  <figure style="padding:10px;text-align:center;"><img src="./test_svg.png" /></figure>
+  <pre><code># テスト
+if __name__ == "__main__":
+  # v2.0
+  #  初期化
+  svgobj = SVG(320, 240, "Test")
+  # 直線
+  svgobj.add_shape('line', 'x1="10" y1="110" x2="200" y2="150"', 'stroke:orange;stroke-width:5')
+  # 矩形
+  svgobj.add_shape('rect', 'x="5" y="5" width="80" height="50"', 'fill:lightblue;stroke:black;stroke-width:2')
+  # 文字列
+  svgobj.add_text('ABCD098', x=10, y=80)
+  # グループ開始
+  svgobj.add_group('stroke:red;stroke-width:2;fill:pink;')
+  # 円
+  svgobj.add_shape('circle', {"cx":280, "cy":200, "r":25})
+  # 円
+  svgobj.add_shape('circle', {"cx":240, "cy":200, "r":25})
+  # 楕円
+  svgobj.add_shape('ellipse', ('cx="180"', 'cy="200"', 'rx="40"', 'ry="25"'))
+  # グループ終了
+  svgobj.close_group()
+  # 多角形
+  svgobj.add_shape('polygon', ["150,30", "230,30", "200,80", "120,80"])
+  # 折れ線
+  svgobj.add_shape('polyline', "10,230 70,180 50,150 110,210", SVG.shape_style("deeppink", 4))
+  # パス
+  svgobj.add_path('M 10,95 80,30 100,50 120,150 180,50', SVG.shape_style("red", 3))
+  # 傾いた矩形
+  svgobj.add_shape('rect', ('x="120"', 'y="190"', 'width="100"', 'height="50"', 'transform="rotate(-30)"'), SVG.shape_style("black", 2, "silver"))
+  # 結果を表示
+  print(svgobj, "\n")
+  # ファイル保存
+  svgobj.save("./test.svg")
+  # XY 座標変換メソッドの動作確認
+  print("translate_xy")
+  print(svgobj.translate_xy(0, 0, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_xy(1, 0, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_xy(0, 1, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_xy(1, 1, 10.0, 8.0, 160.0, 120))
+  # 複素空間 座標変換メソッドの動作確認
+  print("translate_complex")
+  print(svgobj.translate_complex(complex(0, 0), 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_complex(complex(1, 0), 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_complex(1j, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_complex(1+1j, 10.0, 8.0, 160.0, 120))
+  # 極座標変換メソッドの動作確認
+  print("translate_polar")
+  print(svgobj.translate_polar(0, 0, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_polar(1, 0, 10.0, 8.0, 160.0, 120))
+  print(svgobj.translate_polar(1, 90.0, 10.0, 8.0, 160.0, 120, True))
+  print(svgobj.translate_polar(1.414, 45, 10.0, 8.0, 160.0, 120, True))
+</code></pre>
+
+  <h3 class="mt-4">(サンプル２) XY 座標のグラフ</h3>
+  <figure style="padding:10px;text-align:center;"><img src="./xyfunc.png" /></figure>
+  <pre><code># 関数のグラフ
+import SVG, os, math
+
+def radian(degree:float) -> float:
+  return degree / 180.0 * math.pi
+
+svg = SVG.SVG(1000, 500, 'Graph')
+svg.draw_frame()
+svg.draw_vline(500)
+svg.draw_hline(250)
+svg.add_text('-360', x=0, y=245) 
+svg.add_text('360', x=960, y=245) 
+svg.add_text('1', x=500, y=15) 
+svg.add_text('-1', x=500, y=495) 
+scale_x = 500.0 / 360.0
+scale_y = 250.0
+offset_x = 500.0
+offset_y = 250.0
+x = -360.0
+data = "M "
+while x <= 360.0:
+  y = math.cos(radian(x))
+  x1, y1 = svg.translate_xy(x, y, scale_x, scale_y, offset_x, offset_y)
+  data += f' {x1},{y1}'
+  x += 1.0
+svg.add_path(data, style="stroke:black;stroke-width:2;fill:transparent;")
+svg.save("./xyfunc.svg")
+print(svg)</code></pre>
+
+  <h3 class="mt-4">(サンプル３) 複素空間のグラフ</h3>
+  <figure style="padding:10px;text-align:center;"><img src="./complexfunc.png" /></figure>
+  <pre><code># 複素空間
+import os, cmath
+import SVG
+
+# 複素数関数を描画
+def complexfunc(p1:complex, p2:complex) -> None:
+  z = p1
+  data = "M "
+  while z.real < p2.real:
+    w = cmath.exp(z * 0.05)
+    x, y = svg.translate_complex(w, 4, 3, 400, 300)
+    data += f'{x},{y} '
+    z = z + (0.1+0.1j)
+  return data
+
+# 初期化
+svg = SVG.SVG(800, 600, "Complex")
+# 枠を描画
+svg.draw_frame()
+# 座標軸を描画
+svg.draw_hline(300)
+svg.draw_vline(400)
+# 座標軸に値を表示
+svg.add_text('100.0j', 400, 15)
+svg.add_text('-100.0j', 400, 590)
+svg.add_text('-100.0', 0, 290)
+svg.add_text('100.0', 740, 290)
+# 元の直線
+svg.add_shape("line", {"x1":0, "y1":599, "x2":799, "y2":0}, "stroke:black;stroke-width:3")
+# 変換後の曲線
+path = complexfunc(complex(-100.0, -75.0), complex(100.0, 75.0))
+svg.add_path(path, "stroke:royalblue;stroke-width:3;fill:transparent;")
+# SVG を表示する。
+print(svg)
+# ファイル保存
+svg.save("complexfunc.svg")</code></pre>
+
+  <h3 class="mt-4">(サンプル４) 極座標のグラフ</h3>
+  <figure style="padding:10px;text-align:center;"><img src="./polarfunc.png" /></figure>
+  <pre><code># 極座標のグラフ
+import SVG, math, os
+
+# 極座標でグラフを描画する。
+def polarfunc(svg):
+  a = 0.0
+  data = "M "
+  while a <= 2.0 * math.pi:
+    x, y = svg.translate_polar(200.0, a, 1.0, 1.0, 400, 400)
+    data += f"{x},{y} "
+    a += 0.1
+  return data + " Z"
+
+# 初期化
+svg = SVG.SVG(800, 800, "Polar")
+# 枠を描画
+svg.draw_frame()
+# 座標軸を描画
+svg.draw_hline(400)
+svg.draw_vline(400)
+# 座標軸に値を表示
+svg.add_text('100.0', 400, 15)
+svg.add_text('-100.0', 400, 780)
+svg.add_text('-100.0', 0, 400)
+svg.add_text('100.0', 740, 400)
+# グラフを描画
+data = polarfunc(svg)
+data = polarfunc(svg)
+svg.add_path(data, "stroke:black;stroke-width:2;fill:lightcyan;fill-opacity:30%;")
+# SVG を表示する。
+print(svg)
+# ファイル保存
+svg.save("polarfunc.svg")
+</code></pre>
+  </section>
+ </article>
+ 
+ <!-- フッター -->
+ <footer class="container">
+  <p class="text-center mt-4"><a href="#top">TOP</a></p>
+  <p>&nbsp;</p>
+ </footer>
+ <!-- BootstrapのJS読み込み -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
