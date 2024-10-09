@@ -5,7 +5,7 @@ from typing import Union
 
 # SVG クラス
 class SVG:
-  VERSION = "2.1.1"
+  VERSION = "2.2.0"
 
   # コンストラクタ
   #   width: 描画領域の幅 (ドット数)
@@ -62,6 +62,10 @@ class SVG:
     return
 
   # 文字列を追加
+  #   text: 文字列
+  #   x: 表示位置の X 座標
+  #   y: 表示位置の Y 座標
+  #   style: スタイル
   def add_text(self, text:str, x:int, y:int, style="font-size:1.5;stroke:gray;fill:gray;") -> None:
     if self._is_group():
       self.__group.append(f'<text x="{x}" y="{y}" style="{style}"></text>')
@@ -70,6 +74,7 @@ class SVG:
     return
 
   # グループを追加 (新しいグループを開始)
+  #   style: スタイル
   def add_group(self, style:str) -> None:
     self.__group.clear()
     self.__group.append(f'<g style="{style}">')
@@ -130,10 +135,29 @@ class SVG:
     return self.translate_xy(x, y, scale_x, scale_y, offset_x, offset_y)
 
   # 図形のスタイル生成
+  #   color: 境界線の色
+  #   line_width: 線の幅
+  #   bgcolor: 背景色
+  #   opacity: 背景の透過率
   @staticmethod
-  def shape_style(color="black", line_width=2, bgcolor="transparent") -> str:
-    style = f'stroke:{color};stroke-width:{line_width};fill:{bgcolor};'
+  def shape_style(color="black", line_width=2, bgcolor="transparent", opacity=1) -> str:
+    style = f'stroke:{color};stroke-width:{line_width};fill:{bgcolor};fill-opacity:{opacity};'
     return style
+
+  # Transform 属性文字列を得る。
+  #   rotate: 回転角
+  #   moveto: 移動先の座標
+  #   scale: 倍率
+  @staticmethod
+  def transform(rotate=None, moveto=None, scale=None) -> str:
+    tr = ''
+    if rotate != None:
+      tr += f'rotate({rotate}) '
+    if moveto != None:
+      tr += f'translate({moveto[0]} {moveto[1]}) '
+    if scale != None:
+      tr += f'scale({scale[0]} {scale[1]})'
+    return tr
 
   # ファイル保存
   #   path: 保存先のファイル名（フルパス）
@@ -194,13 +218,13 @@ if __name__ == "__main__":
   #  初期化
   svgobj = SVG(320, 240, "Test")
   # 直線
-  svgobj.add_shape('line', 'x1="10" y1="110" x2="200" y2="150"', 'stroke:orange;stroke-width:5')
+  svgobj.add_shape('line', 'x1="10" y1="110" x2="200" y2="150"', SVG.shape_style(color="orange", line_width=5))
   # 矩形
-  svgobj.add_shape('rect', 'x="5" y="5" width="80" height="50"', 'fill:lightblue;stroke:black;stroke-width:2')
+  svgobj.add_shape('rect', 'x="5" y="5" width="80" height="50"', SVG.shape_style(color="black", line_width=2, bgcolor="lightblue"))
   # 文字列
   svgobj.add_text('ABCD098', x=10, y=80)
   # グループ開始
-  svgobj.add_group('stroke:red;stroke-width:2;fill:pink;')
+  svgobj.add_group(SVG.shape_style('red', 2, 'pink', 0.5))
   # 円
   svgobj.add_shape('circle', {"cx":280, "cy":200, "r":25})
   # 円
@@ -215,12 +239,13 @@ if __name__ == "__main__":
   svgobj.add_shape('polyline', "10,230 70,180 50,150 110,210", SVG.shape_style("deeppink", 4))
   # パス
   svgobj.add_path('M 10,95 80,30 100,50 120,150 180,50', SVG.shape_style("red", 3))
-  # 傾いた矩形
-  svgobj.add_shape('rect', ('x="120"', 'y="190"', 'width="100"', 'height="50"', 'transform="rotate(-30)"'), SVG.shape_style("black", 2, "silver"))
+  # 傾いた矩形 (transform)
+  tr = SVG.transform(rotate=-30, moveto=(10, 10), scale=(2, 1))
+  svgobj.add_shape('rect', ('x="50"', 'y="190"', 'width="100"', 'height="50"', f'transform="{tr}"'), SVG.shape_style("black", 2, "silver"))
   # 結果を表示
   print(svgobj, "\n")
   # ファイル保存
-  svgobj.save("./test.svg")
+  svgobj.save("./HTML/test.svg")
   # XY 座標変換メソッドの動作確認
   print("translate_xy")
   print(svgobj.translate_xy(0, 0, 10.0, 8.0, 160.0, 120))
